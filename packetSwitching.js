@@ -5,7 +5,7 @@ let currentPacket = "";
 let isCircuitMode = true;
 
 function setup() {
-  createCanvas(1600, 900);
+  createCanvas(2200, 900);
   resetPositions();
 }
 
