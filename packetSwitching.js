@@ -5,7 +5,7 @@ let currentPacket = ""; // currently moving packet (used in Circuit mode)
 let isCircuitMode = true; // initial mode is Circuit
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(1600, 900);
   resetPositions();
 }
 
