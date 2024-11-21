@@ -11,7 +11,7 @@ function setup() {
 
 function draw() {
   // 밝은 배경 색상
-  background(220, 220, 240);
+  background(240, 240, 255);
 
   // 네트워크 구조
   drawNodes();
@@ -26,7 +26,7 @@ function draw() {
   // 네트워크 모드 제목
   textAlign(CENTER, CENTER);
   textSize(40);
-  fill(30);
+  fill(50);
   text(
     isCircuitMode ? "Circuit Switching Network" : "Packet Switching Network",
     width / 2,
@@ -44,20 +44,9 @@ function draw() {
   if (currentPacket === "B" || !isCircuitMode) moveBlue();
 }
 
-function drawBackground() {
-  let c1 = color(230, 230, 250);
-  let c2 = color(210, 210, 230);
-  for (let y = 0; y < height; y++) {
-    let inter = map(y, 0, height, 0, 1);
-    let c = lerpColor(c1, c2, inter);
-    stroke(c);
-    line(0, y, width, y);
-  }
-}
-
 function drawNodes() {
   noStroke();
-  fill(180, 200, 255, 200);
+  fill(190, 210, 255);
   rect(230, 335, 180, 135, 30);
   rect(580, 335, 180, 135, 30);
   rect(1150, 335, 180, 135, 30);
@@ -74,46 +63,46 @@ function drawNodes() {
 
 function drawConnections() {
   strokeWeight(5);
-  stroke(100, 150, 255, 150);
+  stroke(150, 180, 255, 150);
   line(410, 402.5, 580, 402.5);
   line(670, 470, 670, 735);
-  stroke(255, 120, 150, 150);
+  stroke(255, 150, 180, 150);
   line(760, 402.5, 1150, 402.5);
   line(760, 802.5, 1150, 802.5);
-  stroke(150, 255, 150, 150);
+  stroke(180, 255, 150, 150);
   line(1240, 470, 1240, 735);
   line(760, 470, 1150, 735);
   line(760, 735, 1150, 470);
-  stroke(255, 255, 150, 150);
+  stroke(255, 255, 180, 150);
   line(1330, 802.5, 1500, 802.5);
 }
 
 function drawModeSwitch() {
   // 스위치 배경
-  fill(180);
-  rect(width - 160, 30, 120, 40, 20);
+  fill(200);
+  rect(30, 30, 120, 40, 20);
 
   // 스위치 토글
   if (isCircuitMode) {
-    fill(250, 100, 100); // Circuit 모드 색상
-    ellipse(width - 140, 50, 30);
+    fill(255, 100, 100); // Circuit 모드 색상
+    ellipse(50, 50, 30);
   } else {
-    fill(100, 250, 150); // Packet 모드 색상
-    ellipse(width - 80, 50, 30);
+    fill(100, 255, 150); // Packet 모드 색상
+    ellipse(110, 50, 30);
   }
 
   // 모드 텍스트
-  fill(0);
+  fill(50);
   textSize(15);
   textAlign(LEFT, CENTER);
-  text("Circuit", width - 160, 80);
+  text("Circuit", 30, 80);
   textAlign(RIGHT, CENTER);
-  text("Packet", width - 40, 80);
+  text("Packet", 150, 80);
 }
 
 function drawInstruction() {
   // 안내 문구를 START 상자 위에 배치
-  fill(30);
+  fill(50);
   textSize(20);
   textAlign(CENTER, CENTER);
   text(
@@ -139,12 +128,7 @@ function drawPacket(x, y, c, label) {
 
 function mousePressed() {
   // 모드 전환 스위치 클릭 감지
-  if (
-    mouseX >= width - 160 &&
-    mouseX <= width - 40 &&
-    mouseY >= 30 &&
-    mouseY <= 70
-  ) {
+  if (mouseX >= 30 && mouseX <= 150 && mouseY >= 30 && mouseY <= 70) {
     isCircuitMode = !isCircuitMode;
     resetPositions();
     return;
