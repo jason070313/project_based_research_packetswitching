@@ -3,10 +3,12 @@ let phaseR = 0, phaseG = 0, phaseB = 0;
 let speed = 1.5;
 let currentPacket = "";
 let isCircuitMode = true;
+let nodeData = {}; // Store monitoring information for each node
 
 function setup() {
   createCanvas(1600, 900);
   resetPositions();
+  initializeNodeData();
 }
 
 function draw() {
@@ -36,6 +38,10 @@ function draw() {
   drawPacket(xR, yR, color(255, 120, 120), "R");
   drawPacket(xG, yG, color(120, 255, 120), "G");
   drawPacket(xB, yB, color(120, 120, 255), "B");
+
+  // 노드 모니터링 데이터 업데이트 및 표시
+  updateNodeData();
+  displayNodeData();
 
   // 패킷 이동
   if (currentPacket === "R" || !isCircuitMode) moveRed();
@@ -111,6 +117,40 @@ function drawPacket(x, y, c, label) {
   text(label, x + 15, y + 15);
 }
 
+function updateNodeData() {
+  // Randomly update some data for simulation purposes
+  for (let node in nodeData) {
+    nodeData[node].throughput = random(10, 100).toFixed(1) + " Mbps";
+    nodeData[node].latency = random(1, 50).toFixed(1) + " ms";
+  }
+}
+
+function displayNodeData() {
+  for (let node in nodeData) {
+    let data = nodeData[node];
+    fill(0, 100, 200, 150);
+    rect(data.x, data.y, 140, 60, 10);
+    fill(255);
+    textSize(15);
+    textAlign(LEFT, CENTER);
+    text("Node: " + data.label, data.x + 10, data.y + 15);
+    text("Throughput: " + data.throughput, data.x + 10, data.y + 30);
+    text("Latency: " + data.latency, data.x + 10, data.y + 45);
+  }
+}
+
+function initializeNodeData() {
+  // Position for monitoring displays
+  nodeData = {
+    node1: { label: "START", x: 240, y: 480 },
+    node2: { label: "MIDDLE 1", x: 600, y: 480 },
+    node3: { label: "MIDDLE 2", x: 1170, y: 480 },
+    node4: { label: "MIDDLE 3", x: 600, y: 880 },
+    node5: { label: "MIDDLE 4", x: 1170, y: 880 },
+    node6: { label: "END", x: 1500, y: 880 },
+  };
+}
+
 function moveRed() {
   if (phaseR === 1) {
     xR += 3.0 * speed;
@@ -177,37 +217,6 @@ function moveBlue() {
       xB = 1578;
       phaseB = 0;
       if (isCircuitMode) currentPacket = "";
-    }
-  }
-}
-
-function mousePressed() {
-  if (mouseX >= 30 && mouseX <= 150 && mouseY >= 30 && mouseY <= 70) {
-    isCircuitMode = !isCircuitMode;
-    resetPositions();
-    return;
-  }
-
-  if (isCircuitMode) {
-    if (currentPacket === "") {
-      if (mouseX >= xR && mouseX <= xR + 30 && mouseY >= yR && mouseY <= yR + 30) {
-        currentPacket = "R";
-        phaseR = 1;
-      } else if (mouseX >= xG && mouseX <= xG + 30 && mouseY >= yG && mouseY <= yG + 30) {
-        currentPacket = "G";
-        phaseG = 1;
-      } else if (mouseX >= xB && mouseX <= xB + 30 && mouseY >= yB && mouseY <= yB + 30) {
-        currentPacket = "B";
-        phaseB = 1;
-      }
-    }
-  } else {
-    if (mouseX >= xR && mouseX <= xR + 30 && mouseY >= yR && mouseY <= yR + 30) {
-      phaseR = 1;
-    } else if (mouseX >= xG && mouseX <= xG + 30 && mouseY >= yG && mouseY <= yG + 30) {
-      phaseG = 1;
-    } else if (mouseX >= xB && mouseX <= xB + 30 && mouseY >= yB && mouseY <= yB + 30) {
-      phaseB = 1;
     }
   }
 }
