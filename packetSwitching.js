@@ -62,7 +62,7 @@ function drawBackground() {
 
 function drawNodes() {
   noStroke();
-  fill(50, 100, 150, 200);
+  fill(200, 220, 255, 200);
   rect(230, 335, 180, 135, 30);
   rect(580, 335, 180, 135, 30);
   rect(1150, 335, 180, 135, 30);
@@ -70,7 +70,7 @@ function drawNodes() {
   rect(1150, 735, 180, 135, 30);
   rect(1500, 735, 180, 135, 30);
 
-  fill(255);
+  fill(30);
   textSize(30);
   textAlign(CENTER, CENTER);
   text("START", 320, 402.5);
@@ -118,29 +118,28 @@ function drawPacket(x, y, c, label) {
 }
 
 function updateNodeData() {
-  // Randomly update some data for simulation purposes
   for (let node in nodeData) {
-    nodeData[node].throughput = random(10, 100).toFixed(1) + " Mbps";
-    nodeData[node].latency = random(1, 50).toFixed(1) + " ms";
+    nodeData[node].throughput = random(50, 500).toFixed(1) + " Mbps"; // Random throughput
+    nodeData[node].latency = random(1, 50).toFixed(1) + " ms"; // Random latency
   }
 }
 
 function displayNodeData() {
   for (let node in nodeData) {
     let data = nodeData[node];
-    fill(0, 100, 200, 150);
-    rect(data.x, data.y, 140, 60, 10);
+    fill(50, 100, 150, 200);
+    rect(data.x, data.y, 140, 70, 10); // Mini-display rectangle
     fill(255);
     textSize(15);
     textAlign(LEFT, CENTER);
-    text("Node: " + data.label, data.x + 10, data.y + 15);
-    text("Throughput: " + data.throughput, data.x + 10, data.y + 30);
-    text("Latency: " + data.latency, data.x + 10, data.y + 45);
+    text("Node: " + data.label, data.x + 10, data.y + 20);
+    text("Throughput: " + data.throughput, data.x + 10, data.y + 40);
+    text("Latency: " + data.latency, data.x + 10, data.y + 60);
   }
 }
 
 function initializeNodeData() {
-  // Position for monitoring displays
+  // Node monitoring positions
   nodeData = {
     node1: { label: "START", x: 240, y: 480 },
     node2: { label: "MIDDLE 1", x: 600, y: 480 },
