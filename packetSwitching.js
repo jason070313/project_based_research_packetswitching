@@ -5,87 +5,105 @@ let currentPacket = "";
 let isCircuitMode = true;
 
 function setup() {
-  createCanvas(2200, 900);
+  createCanvas(1600, 900);
   resetPositions();
 }
 
 function draw() {
-  background(240);
+  // 배경 효과
+  drawBackground();
 
-  // Network structure colors
-  stroke(180);
-  fill(220, 220, 255, 200);
-  rect(230, 335, 180, 135, 20); // Rounded nodes
-  rect(580, 335, 180, 135, 20);
-  rect(1150, 335, 180, 135, 20);
-  rect(580, 735, 180, 135, 20);
-  rect(1150, 735, 180, 135, 20);
-  rect(1500, 735, 180, 135, 20);
+  // 네트워크 구조
+  drawNodes();
+  drawConnections();
 
-  // Connection lines
-  strokeWeight(3);
-  stroke(100, 150, 255, 150);
-  line(410, 402.5, 580, 402.5);
-  line(670, 470, 670, 735);
-  line(760, 402.5, 1150, 402.5);
-  line(760, 802.5, 1150, 802.5);
-  line(1240, 470, 1240, 735);
-  line(760, 470, 1150, 735);
-  line(760, 735, 1150, 470);
-  line(1330, 802.5, 1500, 802.5);
+  // 모드 전환 버튼
+  drawModeToggle();
 
-  // Labels for nodes
-  noStroke();
-  fill(30);
-  textSize(30);
-  textAlign(CENTER, CENTER);
-  text("START", 320, 402.5);
-  text("END", 1590, 802.5);
-
-  // Mode display
+  // 네트워크 모드 제목
   textAlign(CENTER, CENTER);
   textSize(60);
-  if (isCircuitMode) fill(255, 100, 100);
-  else fill(100, 255, 100);
-  text(
-    isCircuitMode ? "Circuit Switching Network" : "Packet Switching Network",
-    width / 2,
-    100
-  );
+  fill(isCircuitMode ? color(250, 100, 100) : color(100, 250, 150));
+  text(isCircuitMode ? "Circuit Switching Network" : "Packet Switching Network", width / 2, 100);
 
-  // Mode toggle button
-  stroke(0);
-  strokeWeight(1);
-  fill(200);
-  rect(30, 30, 120, 40, 10);
-  fill(isCircuitMode ? color(200, 0, 0) : color(0, 200, 0));
-  textSize(20);
-  noStroke();
-  textAlign(CENTER, CENTER);
-  text(isCircuitMode ? "Circuit" : "Packet", 90, 50);
-
-  // Packet movement message
-  fill(30);
+  // 패킷 이동 메시지
+  fill(255);
   textSize(20);
   if (isCircuitMode) text("Only one packet can move at a time.", 320, 300);
   else text("Multiple packets can move simultaneously.", 320, 300);
 
-  // Draw packets
+  // 패킷 그리기
   drawPacket(xR, yR, color(255, 120, 120), "R");
   drawPacket(xG, yG, color(120, 255, 120), "G");
   drawPacket(xB, yB, color(120, 120, 255), "B");
 
-  // Move packets
+  // 패킷 이동
   if (currentPacket === "R" || !isCircuitMode) moveRed();
   if (currentPacket === "G" || !isCircuitMode) moveGreen();
   if (currentPacket === "B" || !isCircuitMode) moveBlue();
 }
 
+function drawBackground() {
+  let c1 = color(30, 30, 60);
+  let c2 = color(10, 10, 40);
+  for (let y = 0; y < height; y++) {
+    let inter = map(y, 0, height, 0, 1);
+    let c = lerpColor(c1, c2, inter);
+    stroke(c);
+    line(0, y, width, y);
+  }
+}
+
+function drawNodes() {
+  noStroke();
+  fill(50, 100, 150, 200);
+  rect(230, 335, 180, 135, 30);
+  rect(580, 335, 180, 135, 30);
+  rect(1150, 335, 180, 135, 30);
+  rect(580, 735, 180, 135, 30);
+  rect(1150, 735, 180, 135, 30);
+  rect(1500, 735, 180, 135, 30);
+
+  fill(255);
+  textSize(30);
+  textAlign(CENTER, CENTER);
+  text("START", 320, 402.5);
+  text("END", 1590, 802.5);
+}
+
+function drawConnections() {
+  strokeWeight(5);
+  stroke(100, 150, 255, 150);
+  line(410, 402.5, 580, 402.5);
+  line(670, 470, 670, 735);
+  stroke(255, 120, 150, 150);
+  line(760, 402.5, 1150, 402.5);
+  line(760, 802.5, 1150, 802.5);
+  stroke(150, 255, 150, 150);
+  line(1240, 470, 1240, 735);
+  line(760, 470, 1150, 735);
+  line(760, 735, 1150, 470);
+  stroke(255, 255, 150, 150);
+  line(1330, 802.5, 1500, 802.5);
+}
+
+function drawModeToggle() {
+  noStroke();
+  fill(100);
+  rect(30, 30, 120, 40, 20);
+  fill(isCircuitMode ? color(250, 100, 100) : color(100, 250, 150));
+  ellipse(isCircuitMode ? 60 : 120, 50, 30);
+  textSize(15);
+  fill(255);
+  textAlign(LEFT);
+  text(isCircuitMode ? "Circuit" : "Packet", 140, 50);
+}
+
 function drawPacket(x, y, c, label) {
   fill(c);
-  stroke(0, 50);
-  strokeWeight(2);
-  rect(x, y, 30, 30, 8); // Rounded packets
+  stroke(255, 255, 255, 100);
+  strokeWeight(3);
+  ellipse(x + 15, y + 15, 30, 30);
   fill(0);
   noStroke();
   textSize(15);
