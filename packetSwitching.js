@@ -17,8 +17,8 @@ function draw() {
   drawNodes();
   drawConnections();
 
-  // 모드 전환 스위치
-  drawModeSwitch();
+  // 모드 전환 버튼
+  drawModeToggle();
 
   // 네트워크 모드 제목
   textAlign(CENTER, CENTER);
@@ -56,7 +56,7 @@ function drawBackground() {
 
 function drawNodes() {
   noStroke();
-  fill(200, 220, 255, 200);
+  fill(50, 100, 150, 200);
   rect(230, 335, 180, 135, 30);
   rect(580, 335, 180, 135, 30);
   rect(1150, 335, 180, 135, 30);
@@ -64,7 +64,7 @@ function drawNodes() {
   rect(1150, 735, 180, 135, 30);
   rect(1500, 735, 180, 135, 30);
 
-  fill(30);
+  fill(255);
   textSize(30);
   textAlign(CENTER, CENTER);
   text("START", 320, 402.5);
@@ -87,27 +87,16 @@ function drawConnections() {
   line(1330, 802.5, 1500, 802.5);
 }
 
-function drawModeSwitch() {
-  // 스위치 배경
-  fill(180);
+function drawModeToggle() {
+  noStroke();
+  fill(100);
   rect(30, 30, 120, 40, 20);
-
-  // 스위치 토글
-  if (isCircuitMode) {
-    fill(250, 100, 100); // Circuit 모드 색상
-    ellipse(50, 50, 30);
-  } else {
-    fill(100, 250, 150); // Packet 모드 색상
-    ellipse(130, 50, 30);
-  }
-
-  // 모드 텍스트
-  fill(0);
+  fill(isCircuitMode ? color(250, 100, 100) : color(100, 250, 150));
+  ellipse(isCircuitMode ? 60 : 120, 50, 30);
   textSize(15);
-  textAlign(LEFT, CENTER);
-  text("Circuit", 30, 80);
-  textAlign(RIGHT, CENTER);
-  text("Packet", 150, 80);
+  fill(255);
+  textAlign(LEFT);
+  text(isCircuitMode ? "Circuit" : "Packet", 140, 50);
 }
 
 function drawPacket(x, y, c, label) {
@@ -120,39 +109,6 @@ function drawPacket(x, y, c, label) {
   textSize(15);
   textAlign(CENTER, CENTER);
   text(label, x + 15, y + 15);
-}
-
-function mousePressed() {
-  // 모드 전환 스위치 클릭 감지
-  if (mouseX >= 30 && mouseX <= 150 && mouseY >= 30 && mouseY <= 70) {
-    isCircuitMode = !isCircuitMode;
-    resetPositions();
-    return;
-  }
-
-  // 패킷 선택
-  if (isCircuitMode) {
-    if (currentPacket === "") {
-      if (mouseX >= xR && mouseX <= xR + 30 && mouseY >= yR && mouseY <= yR + 30) {
-        currentPacket = "R";
-        phaseR = 1;
-      } else if (mouseX >= xG && mouseX <= xG + 30 && mouseY >= yG && mouseY <= yG + 30) {
-        currentPacket = "G";
-        phaseG = 1;
-      } else if (mouseX >= xB && mouseX <= xB + 30 && mouseY >= yB && mouseY <= yB + 30) {
-        currentPacket = "B";
-        phaseB = 1;
-      }
-    }
-  } else {
-    if (mouseX >= xR && mouseX <= xR + 30 && mouseY >= yR && mouseY <= yR + 30) {
-      phaseR = 1;
-    } else if (mouseX >= xG && mouseX <= xG + 30 && mouseY >= yG && mouseY <= yG + 30) {
-      phaseG = 1;
-    } else if (mouseX >= xB && mouseX <= xB + 30 && mouseY >= yB && mouseY <= yB + 30) {
-      phaseB = 1;
-    }
-  }
 }
 
 function moveRed() {
@@ -221,6 +177,37 @@ function moveBlue() {
       xB = 1578;
       phaseB = 0;
       if (isCircuitMode) currentPacket = "";
+    }
+  }
+}
+
+function mousePressed() {
+  if (mouseX >= 30 && mouseX <= 150 && mouseY >= 30 && mouseY <= 70) {
+    isCircuitMode = !isCircuitMode;
+    resetPositions();
+    return;
+  }
+
+  if (isCircuitMode) {
+    if (currentPacket === "") {
+      if (mouseX >= xR && mouseX <= xR + 30 && mouseY >= yR && mouseY <= yR + 30) {
+        currentPacket = "R";
+        phaseR = 1;
+      } else if (mouseX >= xG && mouseX <= xG + 30 && mouseY >= yG && mouseY <= yG + 30) {
+        currentPacket = "G";
+        phaseG = 1;
+      } else if (mouseX >= xB && mouseX <= xB + 30 && mouseY >= yB && mouseY <= yB + 30) {
+        currentPacket = "B";
+        phaseB = 1;
+      }
+    }
+  } else {
+    if (mouseX >= xR && mouseX <= xR + 30 && mouseY >= yR && mouseY <= yR + 30) {
+      phaseR = 1;
+    } else if (mouseX >= xG && mouseX <= xG + 30 && mouseY >= yG && mouseY <= yG + 30) {
+      phaseG = 1;
+    } else if (mouseX >= xB && mouseX <= xB + 30 && mouseY >= yB && mouseY <= yB + 30) {
+      phaseB = 1;
     }
   }
 }
