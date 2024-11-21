@@ -10,8 +10,8 @@ function setup() {
 }
 
 function draw() {
-  // 배경 효과
-  drawBackground();
+  // 밝은 배경 색상
+  background(220, 220, 240);
 
   // 네트워크 구조
   drawNodes();
@@ -20,17 +20,18 @@ function draw() {
   // 모드 전환 스위치
   drawModeSwitch();
 
+  // 안내 문구
+  drawInstruction();
+
   // 네트워크 모드 제목
   textAlign(CENTER, CENTER);
-  textSize(60);
-  fill(isCircuitMode ? color(250, 100, 100) : color(100, 250, 150));
-  text(isCircuitMode ? "Circuit Switching Network" : "Packet Switching Network", width / 2, height / 10);
-
-  // 패킷 이동 메시지
-  fill(255);
-  textSize(20);
-  if (isCircuitMode) text("Only one packet can move at a time.", width / 5, height / 5);
-  else text("Multiple packets can move simultaneously.", width / 5, height / 5);
+  textSize(40);
+  fill(30);
+  text(
+    isCircuitMode ? "Circuit Switching Network" : "Packet Switching Network",
+    width / 2,
+    height / 12
+  );
 
   // 패킷 그리기
   drawPacket(xR, yR, color(255, 120, 120), "R");
@@ -43,14 +44,9 @@ function draw() {
   if (currentPacket === "B" || !isCircuitMode) moveBlue();
 }
 
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-  resetPositions();
-}
-
 function drawBackground() {
-  let c1 = color(30, 30, 60);
-  let c2 = color(10, 10, 40);
+  let c1 = color(230, 230, 250);
+  let c2 = color(210, 210, 230);
   for (let y = 0; y < height; y++) {
     let inter = map(y, 0, height, 0, 1);
     let c = lerpColor(c1, c2, inter);
@@ -61,7 +57,7 @@ function drawBackground() {
 
 function drawNodes() {
   noStroke();
-  fill(200, 220, 255, 200);
+  fill(180, 200, 255, 200);
   rect(230, 335, 180, 135, 30);
   rect(580, 335, 180, 135, 30);
   rect(1150, 335, 180, 135, 30);
@@ -95,24 +91,38 @@ function drawConnections() {
 function drawModeSwitch() {
   // 스위치 배경
   fill(180);
-  rect(width / 20, height / 20, 120, 40, 20);
+  rect(width - 160, 30, 120, 40, 20);
 
   // 스위치 토글
   if (isCircuitMode) {
     fill(250, 100, 100); // Circuit 모드 색상
-    ellipse(width / 20 + 40, height / 20 + 20, 30);
+    ellipse(width - 140, 50, 30);
   } else {
     fill(100, 250, 150); // Packet 모드 색상
-    ellipse(width / 20 + 100, height / 20 + 20, 30);
+    ellipse(width - 80, 50, 30);
   }
 
   // 모드 텍스트
   fill(0);
   textSize(15);
   textAlign(LEFT, CENTER);
-  text("Circuit", width / 20, height / 20 + 60);
+  text("Circuit", width - 160, 80);
   textAlign(RIGHT, CENTER);
-  text("Packet", width / 20 + 120, height / 20 + 60);
+  text("Packet", width - 40, 80);
+}
+
+function drawInstruction() {
+  // 안내 문구를 START 상자 위에 배치
+  fill(30);
+  textSize(20);
+  textAlign(CENTER, CENTER);
+  text(
+    isCircuitMode
+      ? "Only one packet can move at a time."
+      : "Multiple packets can move simultaneously.",
+    320,
+    300
+  );
 }
 
 function drawPacket(x, y, c, label) {
@@ -129,7 +139,12 @@ function drawPacket(x, y, c, label) {
 
 function mousePressed() {
   // 모드 전환 스위치 클릭 감지
-  if (mouseX >= width / 20 && mouseX <= width / 20 + 120 && mouseY >= height / 20 && mouseY <= height / 20 + 40) {
+  if (
+    mouseX >= width - 160 &&
+    mouseX <= width - 40 &&
+    mouseY >= 30 &&
+    mouseY <= 70
+  ) {
     isCircuitMode = !isCircuitMode;
     resetPositions();
     return;
