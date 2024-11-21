@@ -10,7 +10,8 @@ function setup() {
 }
 
 function draw() {
-  background(240);
+  // 배경 효과
+  drawBackground();
 
   // 네트워크 구조
   drawNodes();
@@ -26,7 +27,7 @@ function draw() {
   text(isCircuitMode ? "Circuit Switching Network" : "Packet Switching Network", width / 2, 100);
 
   // 패킷 이동 메시지
-  fill(0);
+  fill(255);
   textSize(20);
   if (isCircuitMode) text("Only one packet can move at a time.", 320, 300);
   else text("Multiple packets can move simultaneously.", 320, 300);
@@ -40,6 +41,17 @@ function draw() {
   if (currentPacket === "R" || !isCircuitMode) moveRed();
   if (currentPacket === "G" || !isCircuitMode) moveGreen();
   if (currentPacket === "B" || !isCircuitMode) moveBlue();
+}
+
+function drawBackground() {
+  let c1 = color(30, 30, 60);
+  let c2 = color(10, 10, 40);
+  for (let y = 0; y < height; y++) {
+    let inter = map(y, 0, height, 0, 1);
+    let c = lerpColor(c1, c2, inter);
+    stroke(c);
+    line(0, y, width, y);
+  }
 }
 
 function drawNodes() {
@@ -80,7 +92,7 @@ function drawModeSwitch() {
   fill(180);
   rect(30, 30, 120, 40, 20);
 
-  // 스위치 토글 부분
+  // 스위치 토글
   if (isCircuitMode) {
     fill(250, 100, 100); // Circuit 모드 색상
     ellipse(50, 50, 30);
