@@ -3,24 +3,21 @@ let phaseR = 0, phaseG = 0, phaseB = 0;
 let speed = 1.5;
 let currentPacket = "";
 let isCircuitMode = true;
-let nodeData = {}; // Store monitoring information for each node
 
 function setup() {
   createCanvas(1600, 900);
   resetPositions();
-  initializeNodeData();
 }
 
 function draw() {
-  // 배경 효과
-  drawBackground();
+  background(240);
 
   // 네트워크 구조
   drawNodes();
   drawConnections();
 
-  // 모드 전환 버튼
-  drawModeToggle();
+  // 모드 전환 스위치
+  drawModeSwitch();
 
   // 네트워크 모드 제목
   textAlign(CENTER, CENTER);
@@ -29,7 +26,7 @@ function draw() {
   text(isCircuitMode ? "Circuit Switching Network" : "Packet Switching Network", width / 2, 100);
 
   // 패킷 이동 메시지
-  fill(255);
+  fill(0);
   textSize(20);
   if (isCircuitMode) text("Only one packet can move at a time.", 320, 300);
   else text("Multiple packets can move simultaneously.", 320, 300);
@@ -39,25 +36,10 @@ function draw() {
   drawPacket(xG, yG, color(120, 255, 120), "G");
   drawPacket(xB, yB, color(120, 120, 255), "B");
 
-  // 노드 모니터링 데이터 업데이트 및 표시
-  updateNodeData();
-  displayNodeData();
-
   // 패킷 이동
   if (currentPacket === "R" || !isCircuitMode) moveRed();
   if (currentPacket === "G" || !isCircuitMode) moveGreen();
   if (currentPacket === "B" || !isCircuitMode) moveBlue();
-}
-
-function drawBackground() {
-  let c1 = color(30, 30, 60);
-  let c2 = color(10, 10, 40);
-  for (let y = 0; y < height; y++) {
-    let inter = map(y, 0, height, 0, 1);
-    let c = lerpColor(c1, c2, inter);
-    stroke(c);
-    line(0, y, width, y);
-  }
 }
 
 function drawNodes() {
@@ -93,16 +75,27 @@ function drawConnections() {
   line(1330, 802.5, 1500, 802.5);
 }
 
-function drawModeToggle() {
-  noStroke();
-  fill(100);
+function drawModeSwitch() {
+  // 스위치 배경
+  fill(180);
   rect(30, 30, 120, 40, 20);
-  fill(isCircuitMode ? color(250, 100, 100) : color(100, 250, 150));
-  ellipse(isCircuitMode ? 60 : 120, 50, 30);
+
+  // 스위치 토글 부분
+  if (isCircuitMode) {
+    fill(250, 100, 100); // Circuit 모드 색상
+    ellipse(50, 50, 30);
+  } else {
+    fill(100, 250, 150); // Packet 모드 색상
+    ellipse(130, 50, 30);
+  }
+
+  // 모드 텍스트
+  fill(0);
   textSize(15);
-  fill(255);
-  textAlign(LEFT);
-  text(isCircuitMode ? "Circuit" : "Packet", 140, 50);
+  textAlign(LEFT, CENTER);
+  text("Circuit", 30, 80);
+  textAlign(RIGHT, CENTER);
+  text("Packet", 150, 80);
 }
 
 function drawPacket(x, y, c, label) {
@@ -117,37 +110,37 @@ function drawPacket(x, y, c, label) {
   text(label, x + 15, y + 15);
 }
 
-function updateNodeData() {
-  for (let node in nodeData) {
-    nodeData[node].throughput = random(50, 500).toFixed(1) + " Mbps"; // Random throughput
-    nodeData[node].latency = random(1, 50).toFixed(1) + " ms"; // Random latency
+function mousePressed() {
+  // 모드 전환 스위치 클릭 감지
+  if (mouseX >= 30 && mouseX <= 150 && mouseY >= 30 && mouseY <= 70) {
+    isCircuitMode = !isCircuitMode;
+    resetPositions();
+    return;
   }
-}
 
-function displayNodeData() {
-  for (let node in nodeData) {
-    let data = nodeData[node];
-    fill(50, 100, 150, 200);
-    rect(data.x, data.y, 140, 70, 10); // Mini-display rectangle
-    fill(255);
-    textSize(15);
-    textAlign(LEFT, CENTER);
-    text("Node: " + data.label, data.x + 10, data.y + 20);
-    text("Throughput: " + data.throughput, data.x + 10, data.y + 40);
-    text("Latency: " + data.latency, data.x + 10, data.y + 60);
+  // 패킷 선택
+  if (isCircuitMode) {
+    if (currentPacket === "") {
+      if (mouseX >= xR && mouseX <= xR + 30 && mouseY >= yR && mouseY <= yR + 30) {
+        currentPacket = "R";
+        phaseR = 1;
+      } else if (mouseX >= xG && mouseX <= xG + 30 && mouseY >= yG && mouseY <= yG + 30) {
+        currentPacket = "G";
+        phaseG = 1;
+      } else if (mouseX >= xB && mouseX <= xB + 30 && mouseY >= yB && mouseY <= yB + 30) {
+        currentPacket = "B";
+        phaseB = 1;
+      }
+    }
+  } else {
+    if (mouseX >= xR && mouseX <= xR + 30 && mouseY >= yR && mouseY <= yR + 30) {
+      phaseR = 1;
+    } else if (mouseX >= xG && mouseX <= xG + 30 && mouseY >= yG && mouseY <= yG + 30) {
+      phaseG = 1;
+    } else if (mouseX >= xB && mouseX <= xB + 30 && mouseY >= yB && mouseY <= yB + 30) {
+      phaseB = 1;
+    }
   }
-}
-
-function initializeNodeData() {
-  // Node monitoring positions
-  nodeData = {
-    node1: { label: "START", x: 240, y: 480 },
-    node2: { label: "MIDDLE 1", x: 600, y: 480 },
-    node3: { label: "MIDDLE 2", x: 1170, y: 480 },
-    node4: { label: "MIDDLE 3", x: 600, y: 880 },
-    node5: { label: "MIDDLE 4", x: 1170, y: 880 },
-    node6: { label: "END", x: 1500, y: 880 },
-  };
 }
 
 function moveRed() {
