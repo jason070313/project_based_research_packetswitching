@@ -113,6 +113,16 @@ function drawInstruction() {
     320,
     300
   );
+  // 왼쪽 하단에 추가 문구 표시
+  textAlign(LEFT, CENTER);
+  textSize(15);
+  text("Click to Move Packet", 50, height - 50);
+  text("Press 'R' to Reset", 50, height - 30);
+}
+function keyPressed() {
+  if (key === 'r' || key === 'R') {
+    resetPositions();
+  }
 }
 
 function drawPacket(x, y, c, label) {
@@ -231,7 +241,9 @@ function moveBlue() {
 
 function resetPositions() {
   xR = 430;
-  yR = yG = yB = 470;
-  xG = 700;
-  xB = 1150;
+  yR = yG = yB = 390;
+  xG = 481;
+  xB = 534;
+  phaseR = phaseG = phaseB = 0;
+  currentPacket = "";
 }
