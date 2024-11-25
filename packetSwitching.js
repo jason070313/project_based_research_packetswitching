@@ -27,6 +27,7 @@ function draw() {
   textAlign(CENTER, CENTER);
   textSize(40);
   fill(50);
+  noStroke();
   text(
     isCircuitMode ? "Circuit Switching Network" : "Packet Switching Network",
     width / 2,
