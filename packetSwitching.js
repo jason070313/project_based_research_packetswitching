@@ -27,7 +27,7 @@ function draw() {
   textAlign(CENTER, CENTER);
   textSize(40);
   fill(50);
-  noStroke();
+  noStroke(); // 테두리 제거
   text(
     isCircuitMode ? "Circuit Switching Network" : "Packet Switching Network",
     width / 2,
@@ -46,7 +46,7 @@ function draw() {
 }
 
 function drawNodes() {
-  noStroke();
+  noStroke(); // 테두리 제거
   fill(190, 210, 255);
   rect(230, 335, 180, 135, 30);
   rect(580, 335, 180, 135, 30);
@@ -64,7 +64,7 @@ function drawNodes() {
 
 function drawConnections() {
   strokeWeight(5);
-  stroke(150, 180, 255); // 간선 색상을 하나로 통일
+  stroke(150, 180, 255); // 간선 색상
   line(410, 402.5, 580, 402.5);
   line(670, 470, 670, 735);
   line(760, 402.5, 1150, 402.5);
@@ -77,7 +77,8 @@ function drawConnections() {
 
 function drawModeSwitch() {
   // 스위치 배경
-  fill(200);
+  fill(200); // 회색 배경
+  noStroke(); // 테두리 제거
   rect(30, 30, 120, 40, 20);
 
   // 스위치 토글
@@ -90,7 +91,8 @@ function drawModeSwitch() {
   }
 
   // 모드 텍스트
-  fill(50);
+  fill(50); // 글자 색상
+  noStroke(); // 테두리 제거
   textSize(15);
   textAlign(LEFT, CENTER);
   text("Circuit", 30, 80);
@@ -100,7 +102,8 @@ function drawModeSwitch() {
 
 function drawInstruction() {
   // 안내 문구를 START 상자 위에 배치
-  fill(50);
+  fill(50); // 글자 색상 지정
+  noStroke(); // 테두리 제거
   textSize(20);
   textAlign(CENTER, CENTER);
   text(
@@ -114,8 +117,7 @@ function drawInstruction() {
 
 function drawPacket(x, y, c, label) {
   fill(c);
-  stroke(255, 255, 255, 100);
-  strokeWeight(3);
+  noStroke(); // 테두리 제거
   ellipse(x + 15, y + 15, 30, 30);
   fill(0);
   noStroke();
@@ -229,9 +231,7 @@ function moveBlue() {
 
 function resetPositions() {
   xR = 430;
-  yR = yG = yB = 390;
-  xG = 481;
-  xB = 534;
-  phaseR = phaseG = phaseB = 0;
-  currentPacket = "";
+  yR = yG = yB = 470;
+  xG = 700;
+  xB = 1150;
 }
