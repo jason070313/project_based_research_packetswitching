@@ -94,20 +94,18 @@ function mousePressed() {
   }
 
   // 패킷 선택
-  if (isCircuitMode) {
-    if (currentPacket === "") {
-      if (mouseX >= xR && mouseX <= xR + 30 && mouseY >= yR && mouseY <= yR + 30) {
-        currentPacket = "R";
-        phaseR = 1;
-      } else if (mouseX >= xG && mouseX <= xG + 30 && mouseY >= yG && mouseY <= yG + 30) {
-        currentPacket = "G";
-        phaseG = 1;
-      } else if (mouseX >= xB && mouseX <= xB + 30 && mouseY >= yB && mouseY <= yB + 30) {
-        currentPacket = "B";
-        phaseB = 1;
-      }
+  if (isCircuitMode && currentPacket === "") {
+    if (mouseX >= xR && mouseX <= xR + 30 && mouseY >= yR && mouseY <= yR + 30) {
+      currentPacket = "R";
+      phaseR = 1;
+    } else if (mouseX >= xG && mouseX <= xG + 30 && mouseY >= yG && mouseY <= yG + 30) {
+      currentPacket = "G";
+      phaseG = 1;
+    } else if (mouseX >= xB && mouseX <= xB + 30 && mouseY >= yB && mouseY <= yB + 30) {
+      currentPacket = "B";
+      phaseB = 1;
     }
-  } else {
+  } else if (!isCircuitMode) {
     if (mouseX >= xR && mouseX <= xR + 30 && mouseY >= yR && mouseY <= yR + 30) {
       phaseR = 1;
     } else if (mouseX >= xG && mouseX <= xG + 30 && mouseY >= yG && mouseY <= yG + 30) {
@@ -174,7 +172,6 @@ function drawModeSwitch() {
 }
 
 function drawInstruction() {
-  // 안내 문구를 START 상자 위에 배치
   fill(50); // 글자 색상 지정
   noStroke(); // 테두리 제거
   textSize(20);
@@ -192,45 +189,24 @@ function drawInstruction() {
   text("Click to Move Packet", 50, height - 50);
   text("Press 'R' to Reset", 50, height - 30);
 }
-function keyPressed() {
-  if (key === 'r' || key === 'R') {
-    resetPositions();
-  }
-}
 
 function drawPacket(x, y, c, label) {
   fill(c);
   noStroke(); // 테두리 제거
   ellipse(x + 15, y + 15, 30, 30);
   fill(0);
-  noStroke();
   textSize(15);
   textAlign(CENTER, CENTER);
   text(label, x + 15, y + 15);
 }
-  // 패킷 선택
-  if (isCircuitMode) {
-    if (currentPacket === "") {
-      if (mouseX >= xR && mouseX <= xR + 30 && mouseY >= yR && mouseY <= yR + 30) {
-        currentPacket = "R";
-        phaseR = 1;
-      } else if (mouseX >= xG && mouseX <= xG + 30 && mouseY >= yG && mouseY <= yG + 30) {
-        currentPacket = "G";
-        phaseG = 1;
-      } else if (mouseX >= xB && mouseX <= xB + 30 && mouseY >= yB && mouseY <= yB + 30) {
-        currentPacket = "B";
-        phaseB = 1;
-      }
-    }
-  } else {
-    if (mouseX >= xR && mouseX <= xR + 30 && mouseY >= yR && mouseY <= yR + 30) {
-      phaseR = 1;
-    } else if (mouseX >= xG && mouseX <= xG + 30 && mouseY >= yG && mouseY <= yG + 30) {
-      phaseG = 1;
-    } else if (mouseX >= xB && mouseX <= xB + 30 && mouseY >= yB && mouseY <= yB + 30) {
-      phaseB = 1;
-    }
-  }
+
+function resetPositions() {
+  xR = 430;
+  yR = yG = yB = 390;
+  xG = 481;
+  xB = 534;
+  phaseR = phaseG = phaseB = 0;
+  currentPacket = "";
 }
 
 function moveRed() {
@@ -301,13 +277,4 @@ function moveBlue() {
       if (isCircuitMode) currentPacket = "";
     }
   }
-}
-
-function resetPositions() {
-  xR = 430;
-  yR = yG = yB = 390;
-  xG = 481;
-  xB = 534;
-  phaseR = phaseG = phaseB = 0;
-  currentPacket = "";
 }
