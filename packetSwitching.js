@@ -3,6 +3,7 @@ let phaseR = 0, phaseG = 0, phaseB = 0;
 let speed = 1.5;
 let currentPacket = "";
 let isCircuitMode = true;
+let isWelcomeScreen = true; // 초기 상태
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -10,39 +11,111 @@ function setup() {
 }
 
 function draw() {
-  // 밝은 배경 색상
-  background(240, 240, 255);
+  if (isWelcomeScreen) {
+    drawWelcomeScreen(); // 환영 화면 그리기
+  } else {
+    // 밝은 배경 색상
+    background(240, 240, 255);
 
-  // 네트워크 구조
-  drawNodes();
-  drawConnections();
+    // 네트워크 구조
+    drawNodes();
+    drawConnections();
 
-  // 모드 전환 스위치
-  drawModeSwitch();
+    // 모드 전환 스위치
+    drawModeSwitch();
 
-  // 안내 문구
-  drawInstruction();
+    // 안내 문구
+    drawInstruction();
 
-  // 네트워크 모드 제목
+    // 네트워크 모드 제목
+    textAlign(CENTER, CENTER);
+    textSize(40);
+    fill(50);
+    noStroke();
+    text(
+      isCircuitMode ? "Circuit Switching Network" : "Packet Switching Network",
+      width / 2,
+      height / 12
+    );
+
+    // 패킷 그리기
+    drawPacket(xR, yR, color(255, 120, 120), "R");
+    drawPacket(xG, yG, color(120, 255, 120), "G");
+    drawPacket(xB, yB, color(120, 120, 255), "B");
+
+    // 패킷 이동
+    if (currentPacket === "R" || !isCircuitMode) moveRed();
+    if (currentPacket === "G" || !isCircuitMode) moveGreen();
+    if (currentPacket === "B" || !isCircuitMode) moveBlue();
+  }
+}
+
+function drawWelcomeScreen() {
+  background(220, 230, 255); // 밝은 배경
   textAlign(CENTER, CENTER);
-  textSize(40);
   fill(50);
-  noStroke(); // 테두리 제거
+  textSize(40);
+  text("안녕하세요!", width / 2, height / 3);
   text(
-    isCircuitMode ? "Circuit Switching Network" : "Packet Switching Network",
+    "Packet Switching vs Circuit Switching 시뮬레이션에 오신 것을 환영합니다",
     width / 2,
-    height / 12
+    height / 3 + 50
   );
 
-  // 패킷 그리기
-  drawPacket(xR, yR, color(255, 120, 120), "R");
-  drawPacket(xG, yG, color(120, 255, 120), "G");
-  drawPacket(xB, yB, color(120, 120, 255), "B");
+  // Start 버튼
+  fill(100, 180, 255); // 버튼 색상
+  noStroke();
+  rect(width / 2 - 100, height / 2, 200, 50, 20);
 
-  // 패킷 이동
-  if (currentPacket === "R" || !isCircuitMode) moveRed();
-  if (currentPacket === "G" || !isCircuitMode) moveGreen();
-  if (currentPacket === "B" || !isCircuitMode) moveBlue();
+  fill(255);
+  textSize(25);
+  text("Start", width / 2, height / 2 + 25);
+}
+
+function mousePressed() {
+  if (isWelcomeScreen) {
+    // Start 버튼 클릭 처리
+    if (
+      mouseX >= width / 2 - 100 &&
+      mouseX <= width / 2 + 100 &&
+      mouseY >= height / 2 &&
+      mouseY <= height / 2 + 50
+    ) {
+      isWelcomeScreen = false; // 시뮬레이션 화면으로 전환
+    }
+    return;
+  }
+
+  // 모드 전환 스위치 클릭 감지
+  if (mouseX >= 30 && mouseX <= 150 && mouseY >= 30 && mouseY <= 70) {
+    isCircuitMode = !isCircuitMode;
+    resetPositions();
+    return;
+  }
+
+  // 패킷 선택
+  if (isCircuitMode) {
+    if (currentPacket === "") {
+      if (mouseX >= xR && mouseX <= xR + 30 && mouseY >= yR && mouseY <= yR + 30) {
+        currentPacket = "R";
+        phaseR = 1;
+      } else if (mouseX >= xG && mouseX <= xG + 30 && mouseY >= yG && mouseY <= yG + 30) {
+        currentPacket = "G";
+        phaseG = 1;
+      } else if (mouseX >= xB && mouseX <= xB + 30 && mouseY >= yB && mouseY <= yB + 30) {
+        currentPacket = "B";
+        phaseB = 1;
+      }
+    }
+  } else {
+    if (mouseX >= xR && mouseX <= xR + 30 && mouseY >= yR && mouseY <= yR + 30) {
+      phaseR = 1;
+    } else if (mouseX >= xG && mouseX <= xG + 30 && mouseY >= yG && mouseY <= yG + 30) {
+      phaseG = 1;
+    } else if (mouseX >= xB && mouseX <= xB + 30 && mouseY >= yB && mouseY <= yB + 30) {
+      phaseB = 1;
+    }
+  }
 }
 
 function drawNodes() {
@@ -135,15 +208,6 @@ function drawPacket(x, y, c, label) {
   textAlign(CENTER, CENTER);
   text(label, x + 15, y + 15);
 }
-
-function mousePressed() {
-  // 모드 전환 스위치 클릭 감지
-  if (mouseX >= 30 && mouseX <= 150 && mouseY >= 30 && mouseY <= 70) {
-    isCircuitMode = !isCircuitMode;
-    resetPositions();
-    return;
-  }
-
   // 패킷 선택
   if (isCircuitMode) {
     if (currentPacket === "") {
