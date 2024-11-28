@@ -55,11 +55,11 @@ function drawWelcomeScreen() {
   textAlign(CENTER, CENTER);
   fill(50);
   textSize(40);
-  text("안녕하세요!", width / 2, height / 3);
+  text("안녕하세요!", width / 2, height / 3+30);
   text(
     "Packet Switching vs Circuit Switching 시뮬레이션에 오신 것을 환영합니다",
     width / 2,
-    height / 3 + 50
+    height / 3 + 80
   );
 
   // Start 버튼
