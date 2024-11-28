@@ -57,6 +57,72 @@ function draw() {
   }
 }
 
+function drawNodes() {
+  noStroke(); // 테두리 제거
+  fill(190, 210, 255);
+  rect(230, 335, 180, 135, 30);
+  rect(580, 335, 180, 135, 30);
+  rect(1150, 335, 180, 135, 30);
+  rect(580, 735, 180, 135, 30);
+  rect(1150, 735, 180, 135, 30);
+  rect(1500, 735, 180, 135, 30);
+
+  fill(30);
+  textSize(30);
+  textAlign(CENTER, CENTER);
+  text("START", 320, 402.5);
+  text("END", 1590, 802.5);
+}
+
+function drawConnections() {
+  strokeWeight(5);
+  stroke(150, 180, 255); // 간선 색상
+  line(410, 402.5, 580, 402.5);
+  line(670, 470, 670, 735);
+  line(760, 402.5, 1150, 402.5);
+  line(760, 802.5, 1150, 802.5);
+  line(1240, 470, 1240, 735);
+  line(760, 470, 1150, 735);
+  line(760, 735, 1150, 470);
+  line(1330, 802.5, 1500, 802.5);
+}
+
+function drawModeSwitch() {
+  // 스위치 배경
+  fill(200); // 회색 배경
+  noStroke(); // 테두리 제거
+  rect(30, 30, 120, 40, 20);
+
+  // 스위치 토글
+  if (isCircuitMode) {
+    fill(255, 100, 100); // Circuit 모드 색상
+    ellipse(50, 50, 30);
+  } else {
+    fill(100, 255, 150); // Packet 모드 색상
+    ellipse(110, 50, 30);
+  }
+
+  // 모드 텍스트
+  fill(50); // 글자 색상
+  noStroke(); // 테두리 제거
+  textSize(15);
+  textAlign(LEFT, CENTER);
+  text("Circuit", 30, 80);
+  textAlign(RIGHT, CENTER);
+  text("Packet", 150, 80);
+}
+
+function drawPacket(x, y, c, label) {
+  fill(c);
+  noStroke(); // 테두리 제거
+  ellipse(x + 15, y + 15, 30, 30);
+  fill(0);
+  noStroke();
+  textSize(15);
+  textAlign(CENTER, CENTER);
+  text(label, x + 15, y + 15);
+}
+
 function drawWelcomeScreen() {
   background(220, 230, 255); // 밝은 배경
   textAlign(CENTER, CENTER);
@@ -180,6 +246,75 @@ function mousePressed() {
     isCircuitMode = !isCircuitMode;
     resetPositions();
     return;
+  }
+}
+function moveGreen() {
+  if (phaseG === 1) {
+    xG += 3.2 * speed;
+    if (xG >= 1235) {
+      xG = 1235;
+      phaseG = 2;
+    }
+  } else if (phaseG === 2) {
+    xG -= 2.1 * speed;
+    yG += 2.1 * (265 / 390) * speed;
+    if (yG >= 790) {
+      yG = 790;
+      phaseG = 3;
+    }
+  } else if (phaseG === 3) {
+    xG += 3.6 * speed;
+    if (xG >= 1623) {
+      xG = 1623;
+      phaseG = 0;
+      if (isCircuitMode) currentPacket = "";
+    }
+  }
+}
+
+function moveBlue() {
+  if (phaseB === 1) {
+    xB += 2.3 * speed;
+    if (xB >= 657.5) {
+      xB = 657.5;
+      phaseB = 2;
+    }
+  } else if (phaseB === 2) {
+    yB += 1.4 * speed;
+    if (yB >= 790) {
+      yB = 790;
+      phaseB = 3;
+    }
+  } else if (phaseB === 3) {
+    xB += 2.8 * speed;
+    if (xB >= 1578) {
+      xB = 1578;
+      phaseB = 0;
+      if (isCircuitMode) currentPacket = "";
+    }
+  }
+}
+
+function moveRed() {
+  if (phaseR === 1) {
+    xR += 3.0 * speed;
+    if (xR >= 1227.5) {
+      xR = 1227.5;
+      phaseR = 2;
+    }
+  } else if (phaseR === 2) {
+    yR += 2.0 * speed;
+    if (yR >= 790) {
+      yR = 790;
+      phaseR = 3;
+    }
+  } else if (phaseR === 3) {
+    xR += 2.0 * speed;
+    if (xR >= 1530) {
+      xR = 1530;
+      phaseR = 0;
+      if (isCircuitMode) currentPacket = "";
+    }
   }
 }
 
