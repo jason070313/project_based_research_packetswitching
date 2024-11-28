@@ -57,6 +57,31 @@ function draw() {
   }
 }
 
+function drawInstruction() {
+  // 안내 문구를 START 상자 위에 배치
+  fill(50); // 글자 색상 지정
+  noStroke(); // 테두리 제거
+  textSize(20);
+  textAlign(CENTER, CENTER);
+  text(
+    isCircuitMode
+      ? "Only one packet can move at a time."
+      : "Multiple packets can move simultaneously.",
+    320,
+    300
+  );
+  // 왼쪽 하단에 추가 문구 표시
+  textAlign(LEFT, CENTER);
+  textSize(15);
+  text("Click to Move Packet", 50, height - 50);
+  text("Press 'R' to Reset", 50, height - 30);
+}
+function keyPressed() {
+  if (key === 'r' || key === 'R') {
+    resetPositions();
+  }
+}
+
 
 function drawNodes() {
   noStroke(); // 테두리 제거
