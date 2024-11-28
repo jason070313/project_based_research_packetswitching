@@ -243,7 +243,7 @@ function mousePressed() {
   }
 
   // 모드 전환 스위치 클릭 감지
-  if (mouseX >= 30 && mouseX <= 150 && mouseY >= 30 && mouseY <= 70) {
+  if (isSimulationRunning && mouseX >= 30 && mouseX <= 150 && mouseY >= 30 && mouseY <= 70) {
     isCircuitMode = !isCircuitMode;
     resetPositions();
     return;
