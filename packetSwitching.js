@@ -323,6 +323,6 @@ function resetPositions() {
   yR = yG = yB = 390;
   xG = 481;
   xB = 534;
-  phaseR = phaseG = phaseB = 0;
+  phaseR = phaseG = phaseB = 1;
   currentPacket = "";
 }
