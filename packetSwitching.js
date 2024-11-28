@@ -6,6 +6,7 @@ let isCircuitMode = true;
 let isWelcomeScreen = true; // 초기 상태
 let isDescriptionScreenCircuit = false; // Circuit 설명 화면 상태
 let isDescriptionScreenPacket = false; // Packet 설명 화면 상태
+let isSimulationRunning = false; // 시뮬레이션 실행 상태
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -19,7 +20,7 @@ function draw() {
     drawDescriptionScreenCircuit(); // Circuit Switching 설명 화면
   } else if (isDescriptionScreenPacket) {
     drawDescriptionScreenPacket(); // Packet Switching 설명 화면
-  } else {
+  } else if (isSimulationRunning) {
     // 시뮬레이션 화면
     background(240, 240, 255);
 
@@ -167,7 +168,9 @@ function mousePressed() {
       mouseY >= height / 2 + 100 &&
       mouseY <= height / 2 + 150
     ) {
-      isDescriptionScreenPacket = false; // 설명 화면 종료
+      isDescriptionScreenPacket = false;
+      isSimulationRunning = true; // 시뮬레이션 화면 시작
+      resetPositions(); // 초기화
     }
     return;
   }
