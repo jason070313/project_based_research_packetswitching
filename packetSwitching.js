@@ -273,6 +273,31 @@ function mousePressed() {
     }
     return;
   }
+  if(isSimulationRunning){
+      // 패킷 선택
+    if (isCircuitMode) {
+      if (currentPacket === "") {
+        if (mouseX >= xR && mouseX <= xR + 30 && mouseY >= yR && mouseY <= yR + 30) {
+          currentPacket = "R";
+          phaseR = 1;
+        } else if (mouseX >= xG && mouseX <= xG + 30 && mouseY >= yG && mouseY <= yG + 30) {
+          currentPacket = "G";
+          phaseG = 1;
+        } else if (mouseX >= xB && mouseX <= xB + 30 && mouseY >= yB && mouseY <= yB + 30) {
+          currentPacket = "B";
+          phaseB = 1;
+        }
+      }
+    } else {
+      if (mouseX >= xR && mouseX <= xR + 30 && mouseY >= yR && mouseY <= yR + 30) {
+        phaseR = 1;
+      } else if (mouseX >= xG && mouseX <= xG + 30 && mouseY >= yG && mouseY <= yG + 30) {
+        phaseG = 1;
+      } else if (mouseX >= xB && mouseX <= xB + 30 && mouseY >= yB && mouseY <= yB + 30) {
+        phaseB = 1;
+      }
+    }
+  }
 }
 
 function moveGreen() {
@@ -350,6 +375,6 @@ function resetPositions() {
   yR = yG = yB = 390;
   xG = 481;
   xB = 534;
-  phaseR = phaseG = phaseB = 1;
+  phaseR = phaseG = phaseB = 0;
   currentPacket = "";
 }
