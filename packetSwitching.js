@@ -58,7 +58,7 @@ function drawWelcomeScreen() {
   textAlign(CENTER, CENTER);
   fill(50);
   textSize(40);
-  text("안녕하세요!", width / 2, height / 3 + 30);
+  text("안녕하세요!", width / 2, height / 3 + 60);
   text(
     "Packet Switching vs Circuit Switching 시뮬레이션에 오신 것을 환영합니다",
     width / 2,
@@ -72,7 +72,7 @@ function drawWelcomeScreen() {
 
   fill(255);
   textSize(25);
-  text("Next", width / 2, height / 2 + 25);
+  text("Next", width / 2, height / 2 + 55);
 }
 
 function drawDescriptionScreen() {
