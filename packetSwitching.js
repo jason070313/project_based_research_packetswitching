@@ -22,7 +22,7 @@ function draw() {
     drawDescriptionScreenPacket(); // Packet Switching 설명 화면
   } else if (isSimulationRunning) {
     // 시뮬레이션 화면
-    background(240, 240, 255);
+    background(240, 240, 255); // 배경 먼저 그리기
 
     // 네트워크 구조
     drawNodes();
@@ -31,19 +31,19 @@ function draw() {
     // 모드 전환 스위치
     drawModeSwitch();
 
-    // 안내 문구
-    drawInstruction();
-
     // 네트워크 모드 제목
-    textAlign(CENTER, CENTER);
-    textSize(40);
-    fill(50);
-    noStroke();
+    textAlign(CENTER, CENTER); // 텍스트 정렬
+    textSize(40); // 텍스트 크기
+    fill(50); // 텍스트 색상
+    noStroke(); // 테두리 제거
     text(
       isCircuitMode ? "Circuit Switching Network" : "Packet Switching Network",
-      width / 2,
-      height / 12
+      width / 2, // 화면 가로 중앙
+      height / 12 // 화면 상단 1/12 지점
     );
+
+    // 안내 문구
+    drawInstruction();
 
     // 패킷 그리기
     drawPacket(xR, yR, color(255, 120, 120), "R");
@@ -56,6 +56,7 @@ function draw() {
     if (currentPacket === "B" || !isCircuitMode) moveBlue();
   }
 }
+
 
 function drawNodes() {
   noStroke(); // 테두리 제거
