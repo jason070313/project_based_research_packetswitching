@@ -199,6 +199,13 @@ function drawDescriptionScreenPacket() {
 }
 
 function mousePressed() {
+  // 모드 전환 스위치 클릭 감지
+  if (mouseX >= 30 && mouseX <= 150 && mouseY >= 30 && mouseY <= 70) {
+    isCircuitMode = !isCircuitMode;
+    resetPositions();
+    return;
+  }
+
   if (isWelcomeScreen) {
     // Next 버튼 클릭 처리
     if (
@@ -241,14 +248,8 @@ function mousePressed() {
     }
     return;
   }
-
-  // 모드 전환 스위치 클릭 감지
-  if (isSimulationRunning && mouseX >= 30 && mouseX <= 150 && mouseY >= 30 && mouseY <= 70) {
-    isCircuitMode = !isCircuitMode;
-    resetPositions();
-    return;
-  }
 }
+
 function moveGreen() {
   if (phaseG === 1) {
     xG += 3.2 * speed;
