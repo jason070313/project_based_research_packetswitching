@@ -7,6 +7,7 @@ let isWelcomeScreen = true; // 초기 상태
 let isDescriptionScreenCircuit = false; // Circuit 설명 화면 상태
 let isDescriptionScreenPacket = false; // Packet 설명 화면 상태
 let isSimulationRunning = false; // 시뮬레이션 실행 상태
+let isHoveringHelp = false; // 툴팁 상태
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -54,7 +55,45 @@ function draw() {
     if (currentPacket === "R" || !isCircuitMode) moveRed();
     if (currentPacket === "G" || !isCircuitMode) moveGreen();
     if (currentPacket === "B" || !isCircuitMode) moveBlue();
+    
+    // ? 버튼 그리기
+    drawHelpButton();
+  
+    // 툴팁 표시
+    if (isHoveringHelp) {
+      drawTooltip();
+    }
   }
+}
+
+function drawHelpButton() {
+  fill(100, 180, 255); // ? 버튼 색상
+  noStroke();
+  ellipse(width - 50, 50, 40, 40); // 버튼 위치 및 크기
+
+  fill(255);
+  textSize(20);
+  textAlign(CENTER, CENTER);
+  text("?", width - 50, 50); // ? 텍스트
+}
+
+function drawTooltip() {
+  fill(50, 50, 50, 220); // 반투명 배경
+  stroke(200);
+  rectMode(CORNER);
+  rect(width - 220, 70, 200, 50, 10); // 툴팁 위치 및 크기
+
+  fill(255);
+  noStroke();
+  textSize(15);
+  textAlign(LEFT, CENTER);
+  text("패킷을 클릭하면 움직입니다\nr키를 눌러서 초기화됩니다", width - 210, 95);
+}
+
+function mouseMoved() {
+  // ? 버튼 위에 마우스가 있는지 확인
+  let d = dist(mouseX, mouseY, width - 50, 50);
+  isHoveringHelp = d <= 20; // 버튼 크기 반경 내에 있으면 true
 }
 
 function drawInstruction() {
@@ -70,11 +109,6 @@ function drawInstruction() {
     320,
     300
   );
-  // 왼쪽 하단에 추가 문구 표시
-  textAlign(LEFT, CENTER);
-  textSize(15);
-  text("Click to Move Packet", 50, height - 50);
-  text("Press 'R' to Reset", 50, height - 30);
 }
 function keyPressed() {
   if (key === 'r' || key === 'R') {
@@ -125,7 +159,7 @@ function drawModeSwitch() {
     ellipse(50, 50, 30);
   } else {
     fill(100, 255, 150); // Packet 모드 색상
-    ellipse(137, 50, 30);
+    ellipse(133, 50, 30);
   }
 
   // 모드 텍스트
