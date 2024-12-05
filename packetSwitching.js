@@ -85,9 +85,9 @@ function drawTooltip() {
 
   fill(255);
   noStroke();
-  textSize(15);
+  textSize(14);
   textAlign(CENTER, CENTER);
-  text("패킷을 클릭하면 움직입니다\nr키를 눌러서 초기화됩니다", width - 210, 95);
+  text("패킷을 클릭하면 움직입니다\nr키를 눌르 초기화됩니다", width - 210, 95);
 }
 
 function mouseMoved() {
