@@ -159,7 +159,7 @@ function drawModeSwitch() {
     ellipse(50, 50, 30);
   } else {
     fill(100, 255, 150); // Packet 모드 색상
-    ellipse(130, 50, 30);
+    ellipse(128, 50, 30);
   }
 
   // 모드 텍스트
