@@ -81,13 +81,13 @@ function drawTooltip() {
   fill(50, 50, 50, 220); // 반투명 배경
   stroke(200);
   rectMode(CORNER);
-  rect(width - 220, 70, 210, 50, 10); // 툴팁 위치 및 크기
+  rect(width - 220, 78, 210, 50, 10); // 툴팁 위치 및 크기
 
   fill(255);
   noStroke();
   textSize(14);
   textAlign(CENTER, CENTER);
-  text("패킷을 클릭하면 움직입니다\nr키를 눌르 초기화됩니다", width - 210, 95);
+  text("패킷을 클릭하면 움직입니다\nr키를 누르 초기화됩니다", width - 115, 103);
 }
 
 function mouseMoved() {
