@@ -10,7 +10,7 @@ let isSimulationRunning = false; // 시뮬레이션 실행 상태
 let isHoveringHelp = false; // 툴팁 상태
 
 function setup() {
-  createCanvas(1600, 900); // 고정된 캔버스 크기 설정
+  createCanvas(windowWidth, windowHeight);
   resetPositions();
 }
 
@@ -96,11 +96,6 @@ function mouseMoved() {
   isHoveringHelp = d <= 20; // 버튼 크기 반경 내에 있으면 true
 }
 
-function touchMoved() {
-  // 터치 이동 시 마우스 이동과 동일하게 처리
-  mouseMoved();
-}
-
 function drawInstruction() {
   // 안내 문구를 START 상자 위에 배치
   fill(50); // 글자 색상 지정
@@ -115,12 +110,12 @@ function drawInstruction() {
     300
   );
 }
-
 function keyPressed() {
   if (key === 'r' || key === 'R') {
     resetPositions();
   }
 }
+
 
 function drawNodes() {
   noStroke(); // 테두리 제거
@@ -220,8 +215,8 @@ function drawDescriptionScreenCircuit() {
   textSize(20);
   text(
     "두 컴퓨터 간에 고정된 통신 경로를 설정하여 정보를 교환하는 방식입니다. \n" +
-    "한 번 통신 경로가 설정되면, 그 경로는 독점적으로 사용됩니다. \n" +
-    "정보 전송 속도가 빠르고 지연이 적어 음성 통신이나 대용량 데이터 전송에 적합합니다.",
+      "한 번 통신 경로가 설정되면, 그 경로는 독점적으로 사용됩니다. \n" +
+      "정보 전송 속도가 빠르고 지연이 적어 음성 통신이나 대용량 데이터 전송에 적합합니다.",
     width / 2,
     height / 2 - 50
   );
@@ -246,8 +241,8 @@ function drawDescriptionScreenPacket() {
   textSize(20);
   text(
     "데이터를 작게 나눈 패킷 단위로 나눠 네트워크를 통해 전송하는 방식입니다. \n" +
-    "각 패킷은 독립적으로 라우팅되며, 다양한 경로를 통해 목적지에 도달할 수 있습니다. \n" +
-    "효율적인 네트워크 사용이 가능하며 파일, 이메일 등 다양한 데이터 전송에 적합합니다.",
+      "각 패킷은 독립적으로 라우팅되며, 다양한 경로를 통해 목적지에 도달할 수 있습니다. \n" +
+      "효율적인 네트워크 사용이 가능하며 파일, 이메일 등 다양한 데이터 전송에 적합합니다.",
     width / 2,
     height / 2 - 50
   );
@@ -263,19 +258,8 @@ function drawDescriptionScreenPacket() {
 }
 
 function mousePressed() {
-  handleInput(mouseX, mouseY);
-}
-
-function touchStarted() {
-  // 터치 이벤트 시 handleInput 함수 호출
-  handleInput(touchX, touchY);
-  // 기본 터치 동작 방지 (스크롤 등)
-  return false;
-}
-
-function handleInput(x, y) {
   // 모드 전환 스위치 클릭 감지
-  if (x >= 30 && x <= 150 && y >= 30 && y <= 70) {
+  if (mouseX >= 30 && mouseX <= 150 && mouseY >= 30 && mouseY <= 70) {
     isCircuitMode = !isCircuitMode;
     resetPositions();
     return;
@@ -284,10 +268,10 @@ function handleInput(x, y) {
   if (isWelcomeScreen) {
     // Next 버튼 클릭 처리
     if (
-      x >= width / 2 - 100 &&
-      x <= width / 2 + 100 &&
-      y >= height / 2 &&
-      y <= height / 2 + 50
+      mouseX >= width / 2 - 100 &&
+      mouseX <= width / 2 + 100 &&
+      mouseY >= height / 2 &&
+      mouseY <= height / 2 + 50
     ) {
       isWelcomeScreen = false;
       isDescriptionScreenCircuit = true; // Circuit 설명 화면으로 전환
@@ -298,10 +282,10 @@ function handleInput(x, y) {
   if (isDescriptionScreenCircuit) {
     // Next 버튼 클릭 처리
     if (
-      x >= width / 2 - 100 &&
-      x <= width / 2 + 100 &&
-      y >= height / 2 + 100 &&
-      y <= height / 2 + 150
+      mouseX >= width / 2 - 100 &&
+      mouseX <= width / 2 + 100 &&
+      mouseY >= height / 2 + 100 &&
+      mouseY <= height / 2 + 150
     ) {
       isDescriptionScreenCircuit = false;
       isDescriptionScreenPacket = true; // Packet 설명 화면으로 전환
@@ -312,10 +296,10 @@ function handleInput(x, y) {
   if (isDescriptionScreenPacket) {
     // Start 버튼 클릭 처리
     if (
-      x >= width / 2 - 100 &&
-      x <= width / 2 + 100 &&
-      y >= height / 2 + 100 &&
-      y <= height / 2 + 150
+      mouseX >= width / 2 - 100 &&
+      mouseX <= width / 2 + 100 &&
+      mouseY >= height / 2 + 100 &&
+      mouseY <= height / 2 + 150
     ) {
       isDescriptionScreenPacket = false;
       isSimulationRunning = true; // 시뮬레이션 화면 시작
@@ -323,28 +307,27 @@ function handleInput(x, y) {
     }
     return;
   }
-
-  if (isSimulationRunning) {
-    // 패킷 선택
+  if(isSimulationRunning){
+      // 패킷 선택
     if (isCircuitMode) {
       if (currentPacket === "") {
-        if (x >= xR && x <= xR + 30 && y >= yR && y <= yR + 30) {
+        if (mouseX >= xR && mouseX <= xR + 30 && mouseY >= yR && mouseY <= yR + 30) {
           currentPacket = "R";
           phaseR = 1;
-        } else if (x >= xG && x <= xG + 30 && y >= yG && y <= yG + 30) {
+        } else if (mouseX >= xG && mouseX <= xG + 30 && mouseY >= yG && mouseY <= yG + 30) {
           currentPacket = "G";
           phaseG = 1;
-        } else if (x >= xB && x <= xB + 30 && y >= yB && y <= yB + 30) {
+        } else if (mouseX >= xB && mouseX <= xB + 30 && mouseY >= yB && mouseY <= yB + 30) {
           currentPacket = "B";
           phaseB = 1;
         }
       }
     } else {
-      if (x >= xR && x <= xR + 30 && y >= yR && y <= yR + 30) {
+      if (mouseX >= xR && mouseX <= xR + 30 && mouseY >= yR && mouseY <= yR + 30) {
         phaseR = 1;
-      } else if (x >= xG && x <= xG + 30 && y >= yG && y <= yG + 30) {
+      } else if (mouseX >= xG && mouseX <= xG + 30 && mouseY >= yG && mouseY <= yG + 30) {
         phaseG = 1;
-      } else if (x >= xB && x <= xB + 30 && y >= yB && y <= yB + 30) {
+      } else if (mouseX >= xB && mouseX <= xB + 30 && mouseY >= yB && mouseY <= yB + 30) {
         phaseB = 1;
       }
     }
